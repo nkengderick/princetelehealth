@@ -1,0 +1,67 @@
+/* SignUp.css */
+
+.Auth {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+.Auth h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+.Auth form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+.Auth label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+.Auth input {
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+.Auth select {
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+.Auth button {
+    background-color: #4caf50;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+.Auth button:hover {
+    background-color: #45a049;
+  }
+  
+.blur {
+  filter: blur(5px);
+}
+
+.cliploader {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  color: skyblue;
+}

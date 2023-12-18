@@ -1,0 +1,58 @@
+
+* {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.landing-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section-card {
+  background-color: skyblue; /* Set the default background color */
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-card:nth-child(even) {
+  background-color: blueviolet; /* Set the alternating background color */
+}
+
+.get-started {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+footer nav a {
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+footer nav a:hover {
+  color: #007bff;
+  text-decoration: none;
+}
+
+footer p{
+  margin-top: 10px;
+  font-size: 14px;
+}
