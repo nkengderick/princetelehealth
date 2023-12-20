@@ -3,89 +3,100 @@
 import React, { useState } from 'react';
 import { useUserContext } from '../../hooks/useUserContext';
 import { useBookAppointment } from '../../hooks/useBookAppointment';
+import Modal from '../Modal/Modal'; // Import the Modal component
+import './book.css'; // Import the stylesheet
+import { useAuthContext } from '../../hooks/useAuthContext';
+import profile from '../../assets/logo.jpeg'
 
 const BookAppointment = () => {
+  const { user } = useAuthContext();
   const { users } = useUserContext();
   const { bookAppointment, isLoading, error } = useBookAppointment();
 
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [location, setLocation] = useState('online')
 
   const handleBookAppointment = () => {
-    // Ensure that a doctor is selected and date/time are not empty
     if (selectedDoctor && date && time) {
-      // Get the doctor's ID
       const doctorId = selectedDoctor._id;
+      const patientId = user._id;
 
-      // For simplicity, assuming the patient ID is the currently logged-in user
-      const patientId = 'patient_id_placeholder';
+      bookAppointment(doctorId, patientId, date, time, location);
 
-      // Call the bookAppointment function
-      bookAppointment(doctorId, patientId, date, time);
-
-      // Clear the form fields after booking
       setSelectedDoctor(null);
       setDate('');
       setTime('');
+      setLocation('');
+      setIsModalOpen(false);
     } else {
       alert('Please select a doctor and provide a date/time for the appointment.');
     }
   };
+  let workers
+  if(users){
+      workers = users.filter((worker) => 
+      worker.userType === 'doctor' || worker.userType === 'intern'
+    )
+  }
 
   return (
-    <div>
-      <h2>Book Appointment</h2>
-      {isLoading && <p>Loading...</p>}
+    <div className="book-appointment-container">
+      <h2>Book an Appointment</h2>
+      {isLoading && <p className="loading">Loading...</p>}
       {error && <p>Error: {error}</p>}
       {users &&
-        users.length > 0 &&
-        users.map((user) => (
+        workers.length > 0 &&
+        workers.map((user) => (
           <div key={user._id} className="doctor-card">
+            <img src={user.image ? `http://localhost:5000/${user.image}` : profile} alt="" />
+            <h2>{user.name}: {user.userType}</h2>
+            <p>Email: {user.email}</p>
+            <p>Phone: {user.phone}</p>
             {user.userType === 'doctor' && (
               <>
-                 <h2>{user.name}: {user.userType}</h2>
-                <p>Email: {user.email}</p>
-                <p>Phone: {user.phone}</p>
                 <p>Address: {user.address}</p>
                 <p>License Number: {user.licenseNumber}</p>
                 <p>Clinic Address: {user.clinicAddress}</p>
                 <p>Specialization: {user.specialization}</p>
                 <p>Years of Experience: {user.yearsOfExperience}</p>
                 <p>Description: {user.description}</p>
-                <button onClick={() => setSelectedDoctor(user)}>Book Appointment</button>
               </>
             )}
             {user.userType === 'intern' && (
               <>
-              <h2>{user.name}: {user.userType}</h2>
-                <p>Email: {user.email}</p>
-                <p>Phone: {user.phone}</p>
                 <p>School: {user.schoolName}</p>
                 <p>Level at School: {user.levelAtSchool}</p>
                 <p>Specialization: {user.specialization}</p>
                 <p>Description: {user.description}</p>
-                <button onClick={() => setSelectedDoctor(user)}>Book Appointment</button>
               </>
             )}
-            {user.userType === 'patient' && (
-              <></>
-            )}
+            <button className="book-button" onClick={() => {
+              setSelectedDoctor(user)
+              setIsModalOpen(true)
+            }}>
+              Book Appointment
+            </button>
           </div>
         ))}
-      {selectedDoctor && (
-        <div className="appointment-form">
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <div className="modal-form">
           <label>Date:</label>
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
 
           <label>Time:</label>
           <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+          
+          <label>Location:</label>
+          <input type="location" value={location} onChange={(e) => setLocation(e.target.value)} />
 
-          <button onClick={handleBookAppointment} disabled={isLoading}>
+          <button className="book-button" onClick={handleBookAppointment} disabled={isLoading}>
             Book Appointment
           </button>
         </div>
-      )}
+      </Modal>
     </div>
   );
 };

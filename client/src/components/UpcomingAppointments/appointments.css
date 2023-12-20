@@ -1,0 +1,21 @@
+/* appointments.css */
+
+.upcoming-appointments {
+    margin-top: 20px;
+  }
+  
+  .appointments-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .appointment-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  .appointment-info {
+    margin: 0;
+  }
+  

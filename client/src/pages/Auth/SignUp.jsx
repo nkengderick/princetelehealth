@@ -1,11 +1,13 @@
 import './auth.css'
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import ClipLoader from "react-spinners/ClipLoader";
 import { useSignup } from '../../hooks/useSignup'
 
 const SignUp = () => {
+  const history = useHistory()
   const { signup, isLoading, error } = useSignup();
+  const [ image, setImage ] = useState()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,7 +24,7 @@ const SignUp = () => {
     levelAtSchool: '',
     schoolName: '',
     description: '',
-    userType: '',
+    userType: 'patient',
   });
 
   const handleChange = (e) => {
@@ -36,7 +38,45 @@ const SignUp = () => {
       alert('Please select a user type');
       return;
     }
-    await signup(formData.name, formData.email, formData.phone, formData.username, formData.password, formData.dob, formData.address, formData.gender, formData.licenseNumber, formData.clinicAddress, formData.specialization, formData.yearsOfExperience, formData.levelAtSchool, formData.schoolName, formData.description, formData.userType)
+    
+    const formDataToSend = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+    formDataToSend.append(key, value);
+    });
+    formDataToSend.append('image', image);
+    try {
+      await signup(formDataToSend);
+
+      // Clear all fields on successful signup
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        username: '',
+        password: '',
+        dob: '',
+        address: '',
+        gender: '',
+        licenseNumber: '',
+        clinicAddress: '',
+        specialization: '',
+        yearsOfExperience: '',
+        levelAtSchool: '',
+        schoolName: '',
+        description: '',
+        userType: 'patient',
+      });
+      setImage(null);
+
+      alert('Signup successful!');
+      history.push('/log-in');
+      
+    } catch (error) {
+      alert('Failed to signup. Please try again.');
+
+      console.error('Signup failed:', error);
+    }
+
   };
 
   return (
@@ -82,22 +122,26 @@ const SignUp = () => {
             <input type="text" name="specialization" value={formData.specialization} onChange={handleChange} />
             <label htmlFor="yearsOfExperience">Years of Experience:</label>
             <input type="number" name="yearsOfExperience" value={formData.yearsOfExperience} onChange={handleChange} />
-            <label htmlFor="clinicAddress">Which Clinic do you currently work in?:</label>
-            <input type="number" name="clinicAddress" value={formData.yearsOfExperience} onChange={handleChange} />
+            <label htmlFor="clinicAddress">Which Clinic do you currently work in</label>
+            <input type="text" name="clinicAddress" value={formData.clinicAddress} onChange={handleChange} />
           </>
         )}
         {formData.userType === 'intern' && (
-            <>
+          <>
             <label htmlFor="specialization">Specialization:</label>
             <input type="text" name="specialization" value={formData.specialization} onChange={handleChange} />
             <label htmlFor="levelAtSchool">Level at School:</label>
             <input type="text" name="levelAtSchool" value={formData.levelAtSchool} onChange={handleChange} />
             <label htmlFor="schoolName">School Attending:</label>
             <input type="text" name="schoolName" value={formData.schoolName} onChange={handleChange} />
+            <label htmlFor="clinicAddress">Place Of Internship</label>
+            <input type="text" name="clinicAddress" value={formData.clinicAddress} onChange={handleChange} />
           </>
         )}
         <label htmlFor="description">Describe yourself: </label>
         <input type="text" name="description" value={formData.description} onChange={handleChange} />
+        <label htmlFor="iamge">Profile Image:</label>
+        <input type="file" onChange={e => setImage(e.target.files[0])} />
         <button type="submit" disabled={isLoading}>Register</button>
       </form>
       {error && <div className="error">{error}</div>}

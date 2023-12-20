@@ -7,7 +7,6 @@ import { useAuthContext } from './hooks/useAuthContext'
 
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
-import Navbar from './components/Navbar/Navbar'
 
 import LandingPage from './pages/Landing/Landing'
 import SignUp from './pages/Auth/SignUp'
@@ -28,7 +27,6 @@ const App = () => {
               <Route path='/patient-dashboard'>
                 <div>
                   <Header />
-                  <Navbar />
                   {user ? <PatientsDashboard /> : <Redirect to='/log-in'></Redirect>}
                   <Footer />
                 </div>

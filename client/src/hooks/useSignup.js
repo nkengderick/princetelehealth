@@ -7,16 +7,21 @@ export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
-  const signup = async (
-    name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType
-  ) => {
+  // const signup = async (
+  //   name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType, image
+  // ) => {
+  const signup = async (formData) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/user/create', {
-        name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType
-      });
+      const response = await axios.post('http://localhost:5000/user/create', formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      );
 
       const user = response.data;
 

@@ -4,6 +4,7 @@
     background-color: #333;
     color: white;
     padding: 1rem;
+    height: 150px;
   }
   
   .navbar {
@@ -19,6 +20,12 @@
   
   .nav-item {
     font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .nav-item:last-child {
+    position: absolute;
+    right: 1rem;
   }
   
   .nav-link {
@@ -38,3 +45,15 @@
     text-decoration: underline;
   }
   
+  
+.dropdown-menu {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

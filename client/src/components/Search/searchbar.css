@@ -1,0 +1,33 @@
+
+.SearchBar {
+    width: 100%;
+    max-width: 400px; 
+    margin: 20px auto;
+  }
+  
+  .search-container {
+    position: relative;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #555;
+    cursor: pointer;
+  }
+  
+  .search-icon:hover {
+    color: #333;
+  }
+  

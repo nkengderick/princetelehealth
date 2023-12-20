@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema({
 
     levelAtSchool: { type: String },
     schoolName: { type: String },
+
+    image: { type: String }
 })
 
 const User = mongoose.model('User', userSchema)

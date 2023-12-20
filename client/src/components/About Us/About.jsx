@@ -24,7 +24,7 @@ const AboutSection = () => {
         </div>
         <div className="about-me-details">
             <div className="about-image">
-                <img src={me} alt="About Us" />
+                <img src='https://github.com/nkengderick/images/telemedicine/ashley.jpg' alt="About Us" />
             </div>
             <div className='about-desc'>
               <p>Ngono Prince</p>
