@@ -1,6 +1,7 @@
 // UpcomingAppointments.js
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAppointmentContext } from '../../hooks/useAppointmentContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useUserContext } from '../../hooks/useUserContext';
@@ -69,6 +70,7 @@ const UpcomingAppointments = () => {
                   </button>
                 </div>
               )}
+              <Link to={`/consult/${appointment._id}`}>Join consultation Now</Link>
             </li>
           ))}
         </ul>

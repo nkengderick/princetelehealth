@@ -13,6 +13,7 @@ import SignUp from './pages/Auth/SignUp'
 import Login from './pages/Auth/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import ListSpecialist from './components/listComponents/ListSpecialist'
+import OnlineConsultation from './pages/Consultation/OnlineConsultation'
 
 const App = () => {
 
@@ -58,6 +59,16 @@ const App = () => {
                       <Login />
                     </div>
                   ) : <Redirect to='/dashboard' />}
+              </Route>
+
+              <Route path='/consult/:appointmentId'>
+                {user ?
+                  (
+                    <div>
+                      <Header />
+                      <OnlineConsultation />
+                    </div>
+                  ) : <Redirect to='/log-in' />}
               </Route>
 
             </Switch>
