@@ -11,7 +11,7 @@ import Footer from './components/Footer/Footer'
 import LandingPage from './pages/Landing/Landing'
 import SignUp from './pages/Auth/SignUp'
 import Login from './pages/Auth/Login'
-import PatientsDashboard from './pages/PatientsDashboard/PatientsDashboard'
+import Dashboard from './pages/Dashboard/Dashboard'
 import ListSpecialist from './components/listComponents/ListSpecialist'
 
 const App = () => {
@@ -24,16 +24,16 @@ const App = () => {
           <div className='content'>
             <Switch>
               
-              <Route path='/patient-dashboard'>
+              <Route path='/dashboard'>
                 <div>
                   <Header />
-                  {user ? <PatientsDashboard /> : <Redirect to='/log-in'></Redirect>}
+                  {user ? <Dashboard /> : <Redirect to='/log-in'></Redirect>}
                   <Footer />
                 </div>
               </Route>
 
               <Route exact path='/'>
-                {!user ? <LandingPage /> : <Redirect to='/patient-dashboard' />}
+                {!user ? <LandingPage /> : <Redirect to='/dashboard' />}
               </Route>
 
               <Route path='/find-doctor'>
@@ -47,7 +47,7 @@ const App = () => {
                       <Header />
                       <SignUp />
                     </div>
-                  ) : <Redirect to='/patient-dashboard' />}
+                  ) : <Redirect to='/dashboard' />}
               </Route>
 
               <Route path='/log-in'>
@@ -57,7 +57,7 @@ const App = () => {
                       <Header />
                       <Login />
                     </div>
-                  ) : <Redirect to='/patient-dashboard' />}
+                  ) : <Redirect to='/dashboard' />}
               </Route>
 
             </Switch>

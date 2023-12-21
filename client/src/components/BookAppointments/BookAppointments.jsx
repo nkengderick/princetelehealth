@@ -18,13 +18,14 @@ const BookAppointment = () => {
   const [time, setTime] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [location, setLocation] = useState('online')
+  const [status, setStatus] = useState('pending')
 
   const handleBookAppointment = () => {
     if (selectedDoctor && date && time) {
       const doctorId = selectedDoctor._id;
       const patientId = user._id;
 
-      bookAppointment(doctorId, patientId, date, time, location);
+      bookAppointment(doctorId, patientId, date, time, location, status);
 
       setSelectedDoctor(null);
       setDate('');

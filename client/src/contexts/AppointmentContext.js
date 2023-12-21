@@ -20,6 +20,12 @@ export const dataReducer = (state, action) => {
         ...state,
         appointments: [...state.appointments, action.payload]
       }
+      case 'UPDATE_APPOINTMENT':
+      const appointment = state.appointments.map((a) => a._id === action.payload._id ? action.payload : a)
+      return {
+        ...state,
+        appointments: appointment
+      }
       default:
         return state;
       }

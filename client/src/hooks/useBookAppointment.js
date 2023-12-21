@@ -7,13 +7,13 @@ export const useBookAppointment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const bookAppointment = async (doctorId, patientId, date, time, location) => {
+  const bookAppointment = async (doctorId, patientId, date, time, location, status) => {
     setIsLoading(true);
     setError(null);
 
     try {
       // Make an API call to book the appointment
-      const response = await axios.post('http://localhost:5000/appointment/create', { doctorId, patientId, date, time, location });
+      const response = await axios.post('http://localhost:5000/appointment/create', { doctorId, patientId, date, time, location, status });
 
       const bookedAppointment = response.data;
 

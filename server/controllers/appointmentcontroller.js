@@ -14,7 +14,7 @@ const appointmentsController = {
 
   createAppointment: async (req, res) => {
     try {
-      const { patientId, doctorId, date, time, location } = req.body;
+      const { patientId, doctorId, date, time, location, status } = req.body;
 
       // Check if patient and doctor exist
       const patient = await User.findById(patientId);
@@ -24,7 +24,7 @@ const appointmentsController = {
         return res.status(404).json({ error: 'Patient or doctor not found' });
       }
 
-      const newAppointment = new Appointment({ patientId, doctorId, date, time, location });
+      const newAppointment = new Appointment({ patientId, doctorId, date, time, location, status });
       await newAppointment.save();
       res.status(201).json({message: 'Appointment created successfully'});
     } catch (error) {
@@ -43,6 +43,33 @@ const appointmentsController = {
       }
 
       res.status(200).json(appointment);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+
+  updateAppointment: async (req, res) => {
+    try {
+      const appointmentId = req.params.id;
+      const { date, time, location, status } = req.body;
+
+      // Check if the appointment exists
+      const existingAppointment = await Appointment.findById(appointmentId);
+      if (!existingAppointment) {
+        return res.status(404).json({ error: 'Appointment not found' });
+      }
+
+      // Update appointment details
+      existingAppointment.date = date || existingAppointment.date;
+      existingAppointment.time = time || existingAppointment.time;
+      existingAppointment.location = location || existingAppointment.location;
+      existingAppointment.status = status || existingAppointment.status;
+
+      // Save the updated appointment
+      await existingAppointment.save();
+
+      res.status(200).json({ message: 'Appointment updated successfully' });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

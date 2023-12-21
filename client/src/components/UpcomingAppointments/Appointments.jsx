@@ -4,12 +4,19 @@ import React from 'react';
 import { useAppointmentContext } from '../../hooks/useAppointmentContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useUserContext } from '../../hooks/useUserContext';
+import { useUpdateAppointment } from '../../hooks/useUpdateAppointment'
 import './appointments.css';
 
 const UpcomingAppointments = () => {
   const { user } = useAuthContext();
   const { users } = useUserContext();
   const { appointments } = useAppointmentContext();
+  const { updateAppointment, isLoading: isUpdating, error: updateError } = useUpdateAppointment(); 
+
+  let currentuser
+  if(users){
+    currentuser = users.find((u) => user._id === u._id)
+  }
 
   if (!users || !appointments) {
     return null;
@@ -19,6 +26,22 @@ const UpcomingAppointments = () => {
     (appointment) =>
       appointment.patientId === user._id || appointment.doctorId === user._id
   );
+
+  const handleConfirm = async (appointmentId) => {
+    try {
+      await updateAppointment(appointmentId, { status: 'confirmed' });
+    } catch (error) {
+      console.error('Error confirming appointment:', error);
+    }
+  };
+
+  const handleReject = async (appointmentId) => {
+    try {
+      await updateAppointment(appointmentId, { status: 'rejected' });
+    } catch (error) {
+      console.error('Error rejecting appointment:', error);
+    }
+  };
 
   return (
     <div className="upcoming-appointments">
@@ -30,11 +53,22 @@ const UpcomingAppointments = () => {
               <p className="appointment-info">Date: {appointment.date}</p>
               <p className="appointment-info">Time: {appointment.time}</p>
               <p className="appointment-info">
-                Doctor: {users.find((user) => user._id === appointment.doctorId)?.name}
+                Doctor: {users.find((u) => u._id === appointment.doctorId)?.name}
               </p>
               <p className="appointment-info">
-                Patient: {users.find((user) => user._id === appointment.patientId)?.name}
+                Patient: {users.find((u) => u._id === appointment.patientId)?.name}
               </p>
+              <p className="appointment-info">Status: {appointment.status}</p>
+              { currentuser && currentuser.userType !== 'patient' &&(
+                <div>                  
+                  <button onClick={() => handleConfirm(appointment._id)} disabled={isUpdating}>
+                    Confirm
+                  </button>
+                  <button onClick={() => handleReject(appointment._id)} disabled={isUpdating}>
+                    Reject
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>

@@ -14,10 +14,11 @@ const userController = {
   createUser: async (req, res) => {
     try {
       const { name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType } = req.body;
+      const role = req.body.userType;
       const imagePath = req.file ? `uploads/${req.file.filename}` : ''
-      const newUser = new User({name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType, image: imagePath});
+      const newUser = new User({name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType, role, image: imagePath});
       await newUser.save();
-      res.status(201).json('User created succesfully');
+      res.status(201).json({user: newUser});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

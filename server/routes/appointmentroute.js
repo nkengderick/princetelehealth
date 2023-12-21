@@ -12,4 +12,7 @@ router.post('/create', appointmentsController.createAppointment);
 // Get one appointment by ID
 router.get('/:id', appointmentsController.getOneAppointment);
 
+// Update an appointment
+router.put('/update/:id', appointmentsController.updateAppointment)
+
 module.exports = router;

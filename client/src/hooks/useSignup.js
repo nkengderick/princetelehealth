@@ -7,9 +7,6 @@ export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
-  // const signup = async (
-  //   name, email, phone, username, password, dob, address, gender, licenseNumber, clinicAddress, specialization, yearsOfExperience, levelAtSchool, schoolName, description, userType, image
-  // ) => {
   const signup = async (formData) => {
     setIsLoading(true);
     setError(null);
@@ -23,7 +20,8 @@ export const useSignup = () => {
       }
       );
 
-      const user = response.data;
+      const user = response.data.user;
+      console.log(user)
 
       if (!response.ok) {
         setIsLoading(false);
