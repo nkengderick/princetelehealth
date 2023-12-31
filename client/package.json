@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@google-cloud/local-auth": "^2.1.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -31,6 +32,8 @@
     "file-loader": "^6.2.0",
     "file-saver": "^2.0.5",
     "fs-extra": "^10.0.0",
+    "google-auth-library": "^9.4.1",
+    "googleapis": "^105.0.0",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.4.3",
