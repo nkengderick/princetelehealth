@@ -1,58 +1,65 @@
-// Chat.js
 
+import './chat.css'
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client'
+import ScrollToBottom from 'react-scroll-to-bottom'
+import { IoMdSend } from 'react-icons/io'
 
-const socket = io.connect('http://localhost:5000')
-
-const Chat = ({ chatroomId }) => {
+const Chat = ({ socket, user, room }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
-  useEffect(() => {
 
-    // Join the chat room when the component mounts
-    socket.emit('join', chatroomId);
+  const sendMessage = async () => {
+    if (newMessage !== '' && !isSending) {
+      setIsSending(true);
 
-    // Listen for incoming messages in the specific chat room
-    socket.on('chat message', (msg) => {
-      setMessages([...messages, msg])
-    })
-
-    return () => {
-      // Leave the chat room when the component unmounts
-      socket.emit('leave', chatroomId)
-      socket.disconnect()
-    }
-    // // Scroll to the bottom of the chat when new messages are added
-    // const chatContainer = document.getElementById('chat-container');
-    // chatContainer.scrollTop = chatContainer.scrollHeight;
-  }, [messages]);
-
-  const handleSendMessage = () => {
-    if (newMessage.trim() !== '') {
-      const newMessageObj = {
-        user: 'patient', // or 'doctor', depending on the sender
-        text: newMessage.trim(),
-        timestamp: new Date().toISOString(),
+      const messageData = {
+        room: room,
+        sender: user,
+        message: newMessage,
+        time: new Date(Date.now()).getHours() + 'h' + new Date(Date.now()).getMinutes() + 'm',
       };
 
-      socket.emit('chat message', { chatroomId, message: newMessageObj })
-
-      setMessages([...messages, newMessageObj]);
-      setNewMessage('');
+      try {
+        await socket.emit('send_message', messageData);
+        setMessages((prevMessages) => [...prevMessages, messageData]);
+        setNewMessage('');
+      } finally {
+        setIsSending(false);
+      }
     }
   };
 
+  useEffect(() => {
+    socket.on('recieve_message', (data) => {
+      setMessages((prevMessages) => [...prevMessages, data]);
+    })
+  }, [socket])
+
   return (
     <div className="chat-container" id="chat-container">
-      <div className="chat-messages">
-        {messages.map((message, index) => (
-          <div key={index} className={`message ${message.user}`}>
-            <span>{message.user}: </span>
-            {message.text}
-          </div>
-        ))}
+      <div clallName='chat-title'>
+        <p>Live Consultation Chat</p>
+      </div>
+      <div className="chat-message">
+        <ScrollToBottom className='message-container'>
+          {messages.map((message) => {
+            return (
+              <div className='message' id={user === message.sender ? 'sending' : 'recieving'}>
+                <div>
+                  <div className="message-data">
+                    <p>{message.message}</p>
+                  </div>
+                  <div className="message-info">
+                    <p id='time'>{message.time}</p>
+                    <p id='sender'>{message.sender}: </p>
+                  </div>
+                </div>  
+              </div>
+            )
+          })}
+        </ScrollToBottom>
       </div>
       <div className="chat-input">
         <input
@@ -61,7 +68,7 @@ const Chat = ({ chatroomId }) => {
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type your message..."
         />
-        <button onClick={handleSendMessage}>Send</button>
+        <button onClick={sendMessage}><IoMdSend /></button>
       </div>
     </div>
   );

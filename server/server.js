@@ -6,46 +6,56 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const path = require('path')
 const http = require('http')
-const socketIO = require('socket.io')
+const { Server } = require('socket.io')
 
 //port and connnection string fron .env
 const PORT = process.env.PORT;
+const SocketPORT = process.env.SocketPORT;
 const dbURI = process.env.MONGODB_URI;
 
 //creating express app
 const app = express();
-const server = http.createServer(app);
-const io = socketIO(server);
-
-io.on('connection', (socket) => {
-  console.log('User connected');
-
-  socket.on('join', (chatroomId) => {
-    socket.join(chatroomId);
-  });
-
-  // Handle chat messages
-  socket.on('chat message', ({chatroomId, msg}) => {
-    io.to(chatroomId).emit('chat message', msg);
-  });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
-
 
 //app middleware
 app.use(cors());
 app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => {
-    console.log("connected to db");
-    app.listen(PORT, () => {
-      console.log(`listening on port ${PORT}`)
+
+  const server = http.createServer(app)
+ const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+ });
+
+ io.on('connection', (socket) => {
+  console.log(`User ${socket.id} Connected`)
+  
+  socket.on('join_room', (data) => {
+    socket.join(data)
+    console.log(`User ${data.user} joined Room ${data.room}`)
+  })
+
+  socket.on('send_message', (data) => {
+    socket.to(data.room)
+    io.emit('recieve_message', data)
+    console.log(data)
+  })
+
+  socket.on('disconnect', () => {
+    console.log(`User ${socket.id} Diconnected`)
+  })
+ })
+ 
+ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+ .then((result) => {
+   console.log("connected to db");
+   app.listen(PORT, () => {
+     console.log(`Server listening on port ${PORT}`)
     });
+    io.listen(SocketPORT)
   })
   .catch((err) => console.log(err));
 
