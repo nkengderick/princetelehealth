@@ -12,7 +12,7 @@ export const useSignup = () => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/user/create', formData,
+      const response = await axios.post('https://prince-tele-health-api.onrender.com/user/create', formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data'

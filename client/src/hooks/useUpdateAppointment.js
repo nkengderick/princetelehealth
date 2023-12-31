@@ -13,7 +13,7 @@ export const useUpdateAppointment = () => {
   
       try {
         // Make an API call to update the appointment
-        const response = await axios.put(`http://localhost:5000/appointment/update/${appointmentId}`, updatedFields);
+        const response = await axios.put(`https://prince-tele-health-api.onrender.com/appointment/update/${appointmentId}`, updatedFields);
   
         const updatedAppointment = response.data;
   

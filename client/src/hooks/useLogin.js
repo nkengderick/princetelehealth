@@ -12,7 +12,7 @@ export const useLogin = () => {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/user/login', {
+      const response = await axios.post('https://prince-tele-health-api.onrender.com/user/login', {
         username,
         password,
       });

@@ -25,7 +25,7 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/user/all');
+        const response = await axios.get('https://prince-tele-health-api.onrender.com/user/all');
         const users = await response.data;
         dispatch({ type: 'SET_USERS', payload: users });      
     } catch (error) {

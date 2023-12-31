@@ -41,7 +41,7 @@ export function AppointmentContextProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/appointment/all');
+        const response = await axios.get('https://prince-tele-health-api.onrender.com/appointment/all');
         const appointments = await response.data;
         dispatch({ type: 'SET_APPOINTMENTS', payload: appointments });      
         
