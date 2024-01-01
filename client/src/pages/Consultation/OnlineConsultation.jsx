@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { io } from 'socket.io-client'
 
-const socket = io.connect('https://prince-tele-health-api.onrender.com/socket.io/')
+const socket = io.connect('https://prince-tele-health-api.onrender.com/')
 
 const OnlineConsultation = ( ) => {
   const { user } = useAuthContext()

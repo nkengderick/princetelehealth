@@ -52,10 +52,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
  mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
  .then((result) => {
    console.log("connected to db");
-   app.listen(PORT, () => {
+   server.listen(PORT, () => {
      console.log(`Server listening on port ${PORT}`)
     });
-    io.listen(SocketPORT)
   })
   .catch((err) => console.log(err));
 
