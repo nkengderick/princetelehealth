@@ -25,7 +25,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   const server = http.createServer(app)
  const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://price-tele-health.onrender.com"],
     methods: ["GET", "POST"]
   }
  });
