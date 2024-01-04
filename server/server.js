@@ -1,6 +1,7 @@
 //use .env
 require('dotenv').config()
 
+const axios = require('axios')
 const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -10,7 +11,6 @@ const { Server } = require('socket.io')
 
 //port and connnection string fron .env
 const PORT = process.env.PORT;
-const SocketPORT = process.env.SocketPORT;
 const dbURI = process.env.MONGODB_URI;
 
 //creating express app
@@ -58,5 +58,25 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   })
   .catch((err) => console.log(err));
 
-  app.use('/user', require('./routes/userRoute'))
-  app.use('/appointment', require('./routes/appointmentroute'))
+  app.get('/zoom',async (req,res)=>{
+    const code = req.query.code;
+    try{
+      const response = await axios.post('https://zoom.us/oauth/token',null,{
+            params:{
+                grant_type: 'authorization_code',
+                code:code,
+                redirect_uri: process.env.REDIRECT_URI
+            },
+            headers:{
+                'Authorization':`Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`
+            }
+        });
+        res.send(response.data.access_token);    
+    }catch(error){
+        console.error('Error',error);
+        res.send('Error');
+      }
+});
+      app.use('/user', require('./routes/userRoute'))
+      app.use('/appointment', require('./routes/appointmentroute'))
+      

@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@google-cloud/local-auth": "^2.1.0",
+    "@googleapis/calendar": "^9.5.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -52,6 +53,7 @@
     "react-app-polyfill": "^3.0.0",
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
+    "react-google-calendar-api": "^2.3.0",
     "react-icons": "^4.12.0",
     "react-refresh": "^0.11.0",
     "react-router-dom": "^5.3.4",

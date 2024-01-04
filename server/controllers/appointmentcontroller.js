@@ -1,6 +1,7 @@
 const Appointment = require('../models/Appointment');
 const User = require('../models/User');
 
+let meetLink
 const appointmentsController = {
   getAllAppointments: async (req, res) => {
     try {
@@ -15,6 +16,7 @@ const appointmentsController = {
   createAppointment: async (req, res) => {
     try {
       const { patientId, doctorId, date, time, location, status } = req.body;
+      const meetingLink = generateLink()
 
       // Check if patient and doctor exist
       const patient = await User.findById(patientId);
@@ -24,9 +26,10 @@ const appointmentsController = {
         return res.status(404).json({ error: 'Patient or doctor not found' });
       }
 
-      const newAppointment = new Appointment({ patientId, doctorId, date, time, location, status });
+      const newAppointment = new Appointment({ patientId, doctorId, date, time, location, status, meetingLink });
       await newAppointment.save();
-      res.status(201).json({message: 'Appointment created successfully'});
+      meetLink = newAppointment.meetingLink;
+      res.status(201).json({message: 'Appointment created successfully', meetLink});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -76,5 +79,29 @@ const appointmentsController = {
     }
   },
 };
+
+
+const generateRandomString = () => {
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+  let randomString = '';
+  for (let i = 0; i < 3; i++) {
+    randomString += characters[Math.floor(Math.random() * characters.length)];
+  }
+  randomString += '-';
+  for (let i = 0; i < 4; i++) {
+    randomString += characters[Math.floor(Math.random() * characters.length)];
+  }
+  randomString += '-';
+  for (let i = 0; i < 3; i++) {
+    randomString += characters[Math.floor(Math.random() * characters.length)];
+  }
+  return randomString;
+};
+
+const generateLink = async () => {
+  const uniqueId = generateRandomString()
+  return `https://meet.google.com/${uniqueId}`
+}
+
 
 module.exports = appointmentsController;

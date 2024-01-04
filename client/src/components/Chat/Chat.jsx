@@ -23,7 +23,7 @@ const Chat = ({ socket, user, room }) => {
 
       try {
         await socket.emit('send_message', messageData);
-        setMessages((prevMessages) => [...prevMessages, messageData]);
+        //setMessages((prevMessages) => [...prevMessages, messageData]);
         setNewMessage('');
       } finally {
         setIsSending(false);
