@@ -1,12 +1,13 @@
 import './App.css'
 
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import { useAuthContext } from './hooks/useAuthContext'
 
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
+import NotFound from './components/NotFound/NotFound'
 
 import LandingPage from './pages/Landing/Landing'
 import SignUp from './pages/Auth/SignUp'
@@ -70,6 +71,10 @@ const App = () => {
                       <OnlineConsultation />
                     </div>
                   ) : <Redirect to='/log-in' />}
+              </Route>
+
+              <Route path='*'>
+                 <NotFound />
               </Route>
 
             </Switch>
