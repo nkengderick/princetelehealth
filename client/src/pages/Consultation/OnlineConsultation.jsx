@@ -6,7 +6,7 @@ import Video from '../../components/Video/Video'; // Implement a video consultat
 import { useParams } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { io } from 'socket.io-client'
-import ApiCalendar from 'react-google-calendar-api/ApiCalendar';
+//import ApiCalendar from 'react-google-calendar-api/ApiCalendar';
 
 const socket = io.connect('https://prince-tele-health-api.onrender.com/')
 
@@ -26,7 +26,7 @@ const OnlineConsultation = ( ) => {
       }
     })
     
-    const createGoogleMeetLink = async () => {
+    /*const createGoogleMeetLink = async () => {
       try {
         const calendar = new Calendar({
           clientId: process.env.GOOGLE_CLIENT_ID,
@@ -66,12 +66,12 @@ const OnlineConsultation = ( ) => {
       } catch (error) {
       console.error('Error creating Google Meet link:', error);
     }
-  }
+  }*/
     
     return (
     <div>
       <h2>Online Consultation</h2>
-      <button onClick={createGoogleMeetLink}>Start Video Consultation</button>
+      <button>Start Video Consultation</button>
       {isVideo ? (
         <Video />
       ) : (
