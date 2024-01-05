@@ -1,0 +1,69 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4; /* Light grey background */
+}
+
+.error {
+  color: red; /* Red color for the word 'error' */
+}
+
+#notfound {
+  position: relative;
+  height: 100%;
+}
+
+.notfound {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.notfound .notfound-404 {
+  position: relative;
+  height: 200px;
+  margin: 0px;
+  font-size: 170px; /* Large font size for '404' */
+  font-weight: 700;
+}
+
+.notfound .notfound-404 h1 {
+  font-family: 'Montserrat', sans-serif;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0px;
+}
+
+.notfound h2 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.notfound p {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.notfound a {
+  display: inline-block;
+  padding: 10px 25px;
+  background-color: #ff7f0e; /* Orange background for link */
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 40px;
+  transition: 0.2s;
+}
+
+.notfound a:hover {
+  background-color: #333;
+  }
