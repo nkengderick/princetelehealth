@@ -1,7 +1,7 @@
 require('dotenv').config();
 const axios = require('axios');
 
-let token = process.env.TOKEN;
+const token = process.env.TOKEN;
 
 const refreshToken = process.env.REFRESH_TOKEN;
 
@@ -20,7 +20,7 @@ async function refreshAccessToken() {
               }
           });
 
-    token = response.data.access_token;
+    process.env.TOKEN = response.data.access_token;
     console.log('Access Token Refreshed');
     //console.log(token)
   } catch (error) {
