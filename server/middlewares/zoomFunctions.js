@@ -6,6 +6,7 @@ let token = process.env.TOKEN;
 const refreshToken = process.env.REFRESH_TOKEN;
 
 async function refreshAccessToken() {
+    console.log('Access Token Refreshing');
     try{
         const response = await axios.post('https://zoom.us/oauth/token',null,{
               params:{
@@ -20,8 +21,8 @@ async function refreshAccessToken() {
           });
 
     token = response.data.access_token;
-
     console.log('Access Token Refreshed');
+    //console.log(token)
   } catch (error) {
     console.error('Error refreshing access token:', error);
   }
@@ -56,7 +57,7 @@ async function createMeeting(topic, start_time,type,duration,timezone,agenda){
                 join_before_host:false,
                 mute_upon_entry:true,
                 watermark:false,
-                use_pmi:false,
+                use_pmi:true,
                 approval_type:0,
                 audio:'both',
                 auto_recording:'none'

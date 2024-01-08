@@ -13,7 +13,6 @@ const { Server } = require('socket.io')
 const {logger} = require('./middlewares/logEvents');
 const { errorHandler } = require('./middlewares/errorHandler');
 
-
 //port and connnection string fron .env
 const PORT = process.env.PORT;
 const dbURI = process.env.MONGODB_URI;

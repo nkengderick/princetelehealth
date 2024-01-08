@@ -25,10 +25,10 @@ const appointmentsController = {
         return res.status(404).json({ error: 'Patient or doctor not found' });
       }
 
-      await refreshAccessToken()
-      const meetingResponse = await createMeeting(`New Appointment for ${patient.username} with Doctor ${doctor.name}\n at ${time} on ${date} via zoom`, `${date}T${time}`, 2, 120, 'GMT+1', `Appointment details:\nDate: ${date}\nTime: ${time}\nLocation: ${location}\nStatus: ${status}`);
+      refreshAccessToken()
+      const start = new Date(new Date(`${date}T${time}:00`))
+      const meetingResponse = await createMeeting(`New Appointment for ${patient.username} with Doctor ${doctor.name}\n at ${time} on ${date} via zoom`, start, 2, 120, 'UTC+01:00', `Appointment details:\nDate: ${date}\nTime: ${time}\nLocation: ${location}\nStatus: ${status}`);
       const joinUrl = meetingResponse.join_url;
-
 
       const newAppointment = new Appointment({ patientId, doctorId, date, time, location, status, joinUrl });
       await newAppointment.save();
@@ -82,7 +82,5 @@ const appointmentsController = {
     }
   },
 };
-
-
 
 module.exports = appointmentsController;
