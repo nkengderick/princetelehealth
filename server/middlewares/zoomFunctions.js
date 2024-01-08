@@ -1,7 +1,31 @@
 require('dotenv').config();
 const axios = require('axios');
 
-const token = process.env.TOKEN;
+let token = process.env.TOKEN;
+
+const refreshToken = process.env.REFRESH_TOKEN;
+
+async function refreshAccessToken() {
+    try{
+        const response = await axios.post('https://zoom.us/oauth/token',null,{
+              params:{
+                  grant_type: 'refresh_token',
+                  refresh_token: process.env.REFRESH_TOKEN
+              },
+              headers:{
+                  'Host': 'zoom.us',
+                  'Authorization':`Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`,
+                  'Content-type': 'application/z-www-form-urlencoded'
+              }
+          });
+
+    token = response.data.access_token;
+
+    console.log('Access Token Refreshed');
+  } catch (error) {
+    console.error('Error refreshing access token:', error);
+  }
+}
 
 async function getMeetings(){
     try{
@@ -43,6 +67,10 @@ async function createMeeting(topic, start_time,type,duration,timezone,agenda){
             },
 
         });
+
+        const joinUrl = response.data.join_url;
+        console.log(`Meeting Join URL: ${joinUrl}`);
+
         const body = response.data;
         return body;
     }catch(error){
@@ -50,8 +78,9 @@ async function createMeeting(topic, start_time,type,duration,timezone,agenda){
     }
 }
 
-(async()=>{
-    console.log(await getMeetings());
-    console.log(await createMeeting('CodingWithAdo new meeting','2023-11-20T10:00:00',2,45,'UTC','Team meeting for future videos'));
-    console.log(await getMeetings());
-})()
+
+module.exports = {
+    createMeeting,
+    getMeetings,
+    refreshAccessToken,
+}

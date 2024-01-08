@@ -9,6 +9,11 @@ const path = require('path')
 const http = require('http')
 const { Server } = require('socket.io')
 
+//import Error handling middlwares 
+const {logger} = require('./middlewares/logEvents');
+const { errorHandler } = require('./middlewares/errorHandler');
+
+
 //port and connnection string fron .env
 const PORT = process.env.PORT;
 const dbURI = process.env.MONGODB_URI;
@@ -20,7 +25,8 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+app.use(logger)
+app.use(errorHandler)
 
   const server = http.createServer(app)
  const io = new Server(server, {
@@ -68,10 +74,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
                 redirect_uri: process.env.REDIRECT_URI
             },
             headers:{
-                'Authorization':`Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`
+                'Authorization':`Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`,
             }
         });
-        res.send(response.data.access_token);    
+        res.send(response.data);  
+        
+
     }catch(error){
         console.error('Error',error);
         res.send('Error');

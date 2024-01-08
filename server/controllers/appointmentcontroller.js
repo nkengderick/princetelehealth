@@ -1,7 +1,7 @@
+const { createMeeting, refreshAccessToken } = require('../middlewares/zoomFunctions'); 
 const Appointment = require('../models/Appointment');
 const User = require('../models/User');
 
-let meetLink
 const appointmentsController = {
   getAllAppointments: async (req, res) => {
     try {
@@ -16,7 +16,6 @@ const appointmentsController = {
   createAppointment: async (req, res) => {
     try {
       const { patientId, doctorId, date, time, location, status } = req.body;
-      const meetingLink = generateLink()
 
       // Check if patient and doctor exist
       const patient = await User.findById(patientId);
@@ -26,10 +25,14 @@ const appointmentsController = {
         return res.status(404).json({ error: 'Patient or doctor not found' });
       }
 
-      const newAppointment = new Appointment({ patientId, doctorId, date, time, location, status, meetingLink });
+      await refreshAccessToken()
+      const meetingResponse = await createMeeting(`New Appointment for ${patient.username} with Doctor ${doctor.name}\n at ${time} on ${date} via zoom`, `${date}T${time}`, 2, 120, 'GMT+1', `Appointment details:\nDate: ${date}\nTime: ${time}\nLocation: ${location}\nStatus: ${status}`);
+      const joinUrl = meetingResponse.join_url;
+
+
+      const newAppointment = new Appointment({ patientId, doctorId, date, time, location, status, joinUrl });
       await newAppointment.save();
-      meetLink = newAppointment.meetingLink;
-      res.status(201).json({message: 'Appointment created successfully', meetLink});
+      res.status(201).json({message: 'Appointment created successfully'});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -80,28 +83,6 @@ const appointmentsController = {
   },
 };
 
-
-const generateRandomString = () => {
-  const characters = 'abcdefghijklmnopqrstuvwxyz';
-  let randomString = '';
-  for (let i = 0; i < 3; i++) {
-    randomString += characters[Math.floor(Math.random() * characters.length)];
-  }
-  randomString += '-';
-  for (let i = 0; i < 4; i++) {
-    randomString += characters[Math.floor(Math.random() * characters.length)];
-  }
-  randomString += '-';
-  for (let i = 0; i < 3; i++) {
-    randomString += characters[Math.floor(Math.random() * characters.length)];
-  }
-  return randomString;
-};
-
-const generateLink = async () => {
-  const uniqueId = generateRandomString()
-  return `https://meet.google.com/${uniqueId}`
-}
 
 
 module.exports = appointmentsController;

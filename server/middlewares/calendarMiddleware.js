@@ -1,3 +1,4 @@
+const { createMeeting, getMeetings, refreshAccessToken } = require('./zoomFunctions')
 const { insertEvent, deleteEvent, getEvents, TIMEOFFSET } = require('./googleCalendarFunctions');
 
 // Middleware function to create a calendar event when an appointment is booked
@@ -5,16 +6,11 @@ const createCalendarEventMiddleware = async (req, res, next) => {
   try {
     // Assuming the appointment data is available in the request body
     const { patientId, doctorId, date, time, location, status } = req.body;
-    const meetLink = 'https://meet.google.com/abc-defg-ijk'
     
     // Prepare the event object
     const eventSummary = `Event for Appointment between ${req.body.patientId} and ${req.body.doctorId}`;
-    const eventDescription = `Meeting Details:\nPatient ID: ${patientId}\nDoctor ID: ${doctorId}\nDate: ${date}\nStart Time: ${time}\nMeeting Link ${status}`;
+    const eventDescription = `New meeting for ${patientId} with Doctor ${doctorId}\n at ${time} on ${date} via zoom.`;
 
-    const attendees = [
-      {'email': 'nkengbderick@gmail.com'},
-      {'email': 'nkengder681@gmail.com'}
-    ]
     const event = {
         'summary': eventSummary,
         'description': eventDescription,
@@ -26,21 +22,16 @@ const createCalendarEventMiddleware = async (req, res, next) => {
             'dateTime': new Date(new Date(`${date}T${time}:00.000${TIMEOFFSET}`).getTime() + 2 * 60 * 60 * 1000),
           'timeZone': '(UTC+01:00) West Central Africa'
         },
-        'recurrence': [],
-        'conferenceData': {
-          'createRequest': {
-          },
-          'conferenceSolutionKey': {
-            'type': 'HangoutMeeting',
-          },
-          'requestId': 'qwerty',
-          // 'entryPoints': 
-          //   {
-          //     'entryPointType': 'video',
-          // }
-        },
-        //'attendees': attendees
       };
+
+    const zoomMeeting = await createMeeting(
+      eventSummary,
+      time,
+      2,
+      120,
+      '(GMT+01:00) West Central Africa',
+      eventDescription
+    )
 
 
     // Insert the event to the calendar
@@ -92,6 +83,8 @@ const getCalendarEventsMiddleware = async (req, res, next) => {
 
     // Attach the events to the request object for further processing
     req.calendarEvents = events;
+
+    const zoomMeetings = await getMeetings();
 
     next();
   } catch (error) {

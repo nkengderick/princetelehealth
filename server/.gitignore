@@ -1,2 +1,4 @@
 /node_modules
 /.env
+/middlewares/calendarMiddleware.js
+/middlewares/googleCalendarFunctions.js
