@@ -13,7 +13,7 @@ export const useAddRecord = () => {
 
     try {
       // Make an API call to add the record
-      const response = await axios.post('http://localhost:5000/record/create', { doctor, name, phone, dob, address, gender, signsAndSymptoms, recommendations, nextSteps });
+      const response = await axios.post('https://prince-tele-health-api.onrender.com/record/create', { doctor, name, phone, dob, address, gender, signsAndSymptoms, recommendations, nextSteps });
 
       const addedRecord = response.data;
 

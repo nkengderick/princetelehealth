@@ -35,7 +35,7 @@ export function RecordContextProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/record/all');
+        const response = await axios.get('https://prince-tele-health-api.onrender.com/record/all');
         const records = await response.data;
         dispatch({ type: 'SET_RECORDS', payload: records });      
         
