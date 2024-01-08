@@ -11,14 +11,28 @@ import SearchBar from '../../components/Search/SearchBar'
 
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useUserContext } from '../../hooks/useUserContext'
+import { useAppointmentContext } from '../../hooks/useAppointmentContext'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 const Dashboard = () => {
 
   const { user } = useAuthContext();
   const { users } = useUserContext();
+  const { appointments } = useAppointmentContext();
+ 
   let currentuser;
   if(users){
     currentuser = users.find((u) => user._id === u._id)
+  }
+
+  if (!users || !appointments) {
+    return (
+      <div>
+        <p>Loading...</p>
+        <p>Please wait while we load your data</p>
+        <ClipLoader className="cliploader" color="var(--color-primary)" />
+      </div>
+    );
   }
 
   return (
@@ -37,7 +51,7 @@ const Dashboard = () => {
               <ConsultationHistory />
             </div>
             <div className="records">
-              <HealthRecords />
+              <HealthRecords user={user} />
             </div>
             <div className="book">
               <h2>Book and appointment with any of the doctors below</h2>
@@ -46,11 +60,14 @@ const Dashboard = () => {
           </div> : null
 
       }
-      {  currentuser && currentuser.userType === 'doctor' ? 
+      {  currentuser && currentuser.userType !== 'patient' ? 
           <div>
             <div className="upcoming-appointments">
               <h2>Your upcoming Appointments</h2>
                 <UpcomingAppointments />
+            </div>
+            <div className="records">
+              <HealthRecords user={user} />
             </div>
             <div className="profile">
               <ProfileManagement />

@@ -86,4 +86,5 @@ app.use(errorHandler)
 });
       app.use('/user', require('./routes/userRoute'))
       app.use('/appointment', require('./routes/appointmentroute'))
+      app.use('/record', require('./routes/recordroute'))
       

@@ -25,7 +25,9 @@ const BookAppointment = () => {
       const doctorId = selectedDoctor._id;
       const patientId = user._id;
 
-      bookAppointment(doctorId, patientId, date, time, location, status);
+      const adjustedTime = adjustTime(time);
+
+      bookAppointment(doctorId, patientId, date, adjustedTime, location, status);
 
       setSelectedDoctor(null);
       setDate('');
@@ -35,7 +37,19 @@ const BookAppointment = () => {
     } else {
       alert('Please select a doctor and provide a date/time for the appointment.');
     }
+  }
+  const adjustTime = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+  
+    // Subtract 1 hour
+    const adjustedHours = hours - 1;
+  
+    // Format adjusted time
+    const adjustedTime = `${adjustedHours < 10 ? '0' : ''}${adjustedHours}:${minutes}`;
+  
+    return adjustedTime;
   };
+
   let workers
   if(users){
       workers = users.filter((worker) => 

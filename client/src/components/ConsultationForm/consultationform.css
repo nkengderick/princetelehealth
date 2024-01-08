@@ -1,0 +1,40 @@
+.consultation-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .textarea-group {
+    margin-top: 10px;
+  }
+  
+  .textarea-wrapper {
+    position: relative;
+  }
+  
+  .text-input {
+    width: calc(100% - 30px);
+    padding: 8px;
+    margin-bottom: 5px;
+  }
+  
+  .delete-button {
+    cursor: pointer;
+  }
+  
+  .add-button {
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .submit-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  

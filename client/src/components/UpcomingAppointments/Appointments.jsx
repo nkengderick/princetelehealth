@@ -1,6 +1,6 @@
 // UpcomingAppointments.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppointmentContext } from '../../hooks/useAppointmentContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -14,16 +14,18 @@ const UpcomingAppointments = () => {
   const { appointments } = useAppointmentContext();
   const { updateAppointment, isLoading: isUpdating, error: updateError } = useUpdateAppointment(); 
 
+  const [ apps, setAppointments ] = useState(appointments)
+
   let currentuser
   if(users){
     currentuser = users.find((u) => user._id === u._id)
   }
 
   if (!users || !appointments) {
-    return null;
+    return null
   }
 
-  const userAppointments = appointments.filter(
+  const userAppointments = apps.filter(
     (appointment) =>
       appointment.patientId === user._id || appointment.doctorId === user._id
   );
@@ -31,6 +33,14 @@ const UpcomingAppointments = () => {
   const handleConfirm = async (appointmentId) => {
     try {
       await updateAppointment(appointmentId, { status: 'confirmed' });
+      setAppointments((prevAppointments) => {
+        return prevAppointments.map((appointment) => {
+          if (appointment._id === appointmentId) {
+            return { ...appointment, status: 'confirmed' };
+          }
+          return appointment;
+        });
+      });
     } catch (error) {
       console.error('Error confirming appointment:', error);
     }
@@ -39,10 +49,26 @@ const UpcomingAppointments = () => {
   const handleReject = async (appointmentId) => {
     try {
       await updateAppointment(appointmentId, { status: 'rejected' });
+      setAppointments((prevAppointments) => {
+        return prevAppointments.map((appointment) => {
+          if (appointment._id === appointmentId) {
+            return { ...appointment, status: 'rejected' };
+          }
+          return appointment;
+        });
+      });
     } catch (error) {
       console.error('Error rejecting appointment:', error);
     }
   };
+
+    // Function to check if the appointment time is less than 30 minutes away
+    const isTimeLessThan30MinutesAway = (appointmentDate, appointmentTime) => {
+      const formattedAppointmentDateTime = new Date(`${appointmentDate}T${appointmentTime}:00`);
+      const currentDateTime = new Date();
+      const timeDifference = formattedAppointmentDateTime.getTime() - currentDateTime.getTime();
+      return timeDifference < 30 * 60 * 1000;
+    };
 
   return (
     <div className="upcoming-appointments">
@@ -53,15 +79,19 @@ const UpcomingAppointments = () => {
             <li key={appointment._id} className="appointment-item">
               <p className="appointment-info">Date: {appointment.date}</p>
               <p className="appointment-info">Time: {appointment.time}</p>
-              <p className="appointment-info">
-                Doctor: {users.find((u) => u._id === appointment.doctorId)?.name}
-              </p>
-              <p className="appointment-info">
-                Patient: {users.find((u) => u._id === appointment.patientId)?.name}
-              </p>
+              { currentuser && currentuser.userType === 'patient' && (
+                <p className="appointment-info">
+                  Doctor: {users.find((u) => u._id === appointment.doctorId)?.name}
+                </p>
+              )}
+              { currentuser && currentuser.userType !== 'patient' && (
+                <p className="appointment-info">
+                  Patient: {users.find((u) => u._id === appointment.patientId)?.name}
+                </p>
+              )}
               <p className="appointment-info">Status: {appointment.status}</p>
               { currentuser && currentuser.userType !== 'patient' &&(
-                <div>                  
+                <div className='appointment-buttons'>                  
                   <button onClick={() => handleConfirm(appointment._id)} disabled={isUpdating}>
                     Confirm
                   </button>
@@ -70,7 +100,9 @@ const UpcomingAppointments = () => {
                   </button>
                 </div>
               )}
-              <Link to={`/consult/${appointment._id}`}>Join consultation Now</Link>
+              {isTimeLessThan30MinutesAway(appointment.date.substring(0, 10), appointment.time) && (
+                <Link to={`/consult/${appointment._id}`} className='link-consultation'>Join Consultation Now</Link>
+              )}
             </li>
           ))}
         </ul>

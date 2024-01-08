@@ -8,6 +8,7 @@ import App from './App';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { UserContextProvider } from './contexts/UserContext';
 import { AppointmentContextProvider } from './contexts/AppointmentContext';
+import { RecordContextProvider } from './contexts/RecordContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +16,9 @@ root.render(
     <AuthContextProvider>
       <UserContextProvider>
         <AppointmentContextProvider>
-          <App />
+          <RecordContextProvider>
+            <App />
+          </RecordContextProvider>
         </AppointmentContextProvider>
       </UserContextProvider>
     </AuthContextProvider>

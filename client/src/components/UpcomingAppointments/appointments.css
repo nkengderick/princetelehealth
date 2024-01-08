@@ -1,21 +1,44 @@
 /* appointments.css */
 
 .upcoming-appointments {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+
+.appointments-list {
+  list-style: none;
+  padding: 0;
+}
+
+.appointment-item {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.appointment-info {
+  margin: 0;
+}
+
+.appointment-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.link-consultation {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
   }
-  
-  .appointments-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .appointment-item {
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-  
-  .appointment-info {
-    margin: 0;
-  }
-  
+}

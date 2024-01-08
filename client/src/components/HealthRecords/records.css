@@ -1,0 +1,55 @@
+/* records.css */
+
+/* Container styles */
+.health-records-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  /* Header styles */
+  .health-records-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* List styles */
+  .health-records-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .health-records-item {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .health-records-item:hover {
+    background-color: #f8f8f8;
+  }
+  
+  /* Expanded details styles */
+  .expanded-details {
+    margin-top: 10px;
+  }
+  
+  .details-section {
+    margin-top: 15px;
+  }
+  
+  .details-section strong {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .details-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .details-list-item {
+    margin-bottom: 8px;
+  }
+  

@@ -39,7 +39,7 @@ const Chat = ({ socket, user, room }) => {
 
   return (
     <div className="chat-container" id="chat-container">
-      <div clallName='chat-title'>
+      <div className='chat-title'>
         <p>Live Consultation Chat</p>
       </div>
       <div className="chat-message">

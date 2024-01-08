@@ -27,7 +27,7 @@ export const useBookAppointment = () => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      setError('Internal Server Error');
+      setError('Internal Server Error Please rebook your appointment. Sorry for the invconveniences, our serevr is still under development');
     }
   };
 
