@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const token = process.env.TOKEN;
 
-const refreshToken = process.env.REFRESH_TOKEN;
+let refreshToken = process.env.REFRESH_TOKEN;
 
 async function refreshAccessToken() {
     console.log('Access Token Refreshing');
@@ -48,19 +48,19 @@ async function createMeeting(topic, start_time,type,duration,timezone,agenda){
         const res = await axios.post('https://zoom.us/oauth/token',null,{
             params:{
                 grant_type: 'refresh_token',
-                refresh_token: process.env.REFRESH_TOKEN
+                refresh_token: refreshToken
             },
             headers:{
                 'Host': 'zoom.us',
                 'Authorization':`Basic ${Buffer.from(`${process.env.ZOOM_API_KEY}:${process.env.ZOOM_API_SECRET}`).toString('base64')}`,
-                'Content-type': 'application/z-www-form-urlencoded'
+                'Content-type': 'application/x-www-form-urlencoded'
             }
         });
-        console.log('Access Token Refreshed');
         const at = res.data.access_token
-        console.log(at)
-
+        refreshToken = res.data.refresh_token
+        
         if(at){        
+            console.log('Access Token Refreshed', at);
             const response = await axios.post('https://api.zoom.us/v2/users/me/meetings',{
                 topic,
                 type,
@@ -83,10 +83,11 @@ async function createMeeting(topic, start_time,type,duration,timezone,agenda){
                 headers:{
                     'Authorization':`Bearer ${at}`
                 },
-    
+                
             });
+            console.log('Refresh Token Refreshed', refreshToken);
             
-            const joinUrl = response.data.join_url;
+            const joinUrl = response.data.join_url || '';
             console.log(`Meeting Join URL: ${joinUrl}`);
     
             const body = response.data;

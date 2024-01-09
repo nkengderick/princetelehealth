@@ -77,7 +77,6 @@ app.use(errorHandler)
             }
         });
         res.send(response.data);  
-        
 
     }catch(error){
         console.error('Error',error);
