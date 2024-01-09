@@ -38,7 +38,7 @@ const Dashboard = () => {
   return (
     <div className='Dashboard'>
       <div className="welcome">
-        <img src={`http://localhost:5000/${user.image}`} alt="" />
+        <img src={`https://prince-tele-health-api.onrender.com/${user.image}`} alt="" />
         <h1>Welcome to your dashboard {currentuser ? currentuser.username : null}</h1>
       </div>
       { currentuser && currentuser.userType === 'patient' ? 
