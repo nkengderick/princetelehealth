@@ -6,6 +6,7 @@ export const useBookAppointment = () => {
   const { dispatch } = useAppointmentContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const bookAppointment = async (doctorId, patientId, date, time, location, status) => {
     setIsLoading(true);
@@ -20,8 +21,9 @@ export const useBookAppointment = () => {
       if (response.status === 201) {
         // Dispatch the BOOK_APPOINTMENT action
         dispatch({ type: 'BOOK_APPOINTMENT', payload: bookedAppointment });
+        setMessage('Appointment booked Succesfully')
       } else {
-        setError('Appointment booking failed');
+        setMessage('Appointment booking failed');
       }
 
       setIsLoading(false);
@@ -31,5 +33,5 @@ export const useBookAppointment = () => {
     }
   };
 
-  return { bookAppointment, isLoading, error };
+  return { bookAppointment, isLoading, error, message };
 };

@@ -1,17 +1,22 @@
 import { useRecordContext } from '../../hooks/useRecordContext';
 import './records.css';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const HealthRecords = ({ user }) => {
+const HealthRecords = ({ user, filteredRecords }) => {
   const { records } = useRecordContext();
   const [expandedRecord, setExpandedRecord] = useState(null);
-
+  const [recs, setRecords] = useState(records)
+  
+  useEffect(() => {
+    setRecords(filteredRecords.length > 0 ? filteredRecords : records);
+  }, [filteredRecords, recs]);
+  
   const toggleExpandedRecord = (recordId) => {
     setExpandedRecord(expandedRecord === recordId ? null : recordId);
   };
 
-  const userRecords = records.filter(
+  const userRecords = recs.filter(
     (urecords) =>
       urecords.name === user.name || urecords.doctor === user.name
   );

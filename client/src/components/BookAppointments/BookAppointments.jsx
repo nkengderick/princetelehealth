@@ -11,7 +11,7 @@ import profile from '../../assets/logo.jpeg'
 const BookAppointment = () => {
   const { user } = useAuthContext();
   const { users } = useUserContext();
-  const { bookAppointment, isLoading, error } = useBookAppointment();
+  const { bookAppointment, isLoading, error, message } = useBookAppointment();
 
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [date, setDate] = useState('');
@@ -60,13 +60,14 @@ const BookAppointment = () => {
   return (
     <div className="book-appointment-container">
       <h2>Book an Appointment</h2>
-      {isLoading && <p className="loading">Loading...</p>}
-      {error && <p>Error: {error}</p>}
+      {isLoading && <p className="loading">Booking...</p>}
+      {error && (<p className='error'>Error: {error}</p>)}
+      {message && (<p className='message'>Message from server: {message}</p>)}
       {users &&
         workers.length > 0 &&
         workers.map((user) => (
           <div key={user._id} className="doctor-card">
-            <img src={user.image ? `http://localhost:5000/${user.image}` : profile} alt="" />
+            <img src={user.image ? `https://prince-tele-health-api.onrender.com/${user.image}` : profile} alt="" />
             <h2>{user.name}: {user.userType}</h2>
             <p>Email: {user.email}</p>
             <p>Phone: {user.phone}</p>

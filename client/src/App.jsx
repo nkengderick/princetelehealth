@@ -1,7 +1,7 @@
 import './App.css'
 
 import React from 'react'
-import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import { useAuthContext } from './hooks/useAuthContext'
 
@@ -15,7 +15,7 @@ import Login from './pages/Auth/Login'
 import Dashboard from './pages/Dashboard/Dashboard'
 import ListSpecialist from './components/listComponents/ListSpecialist'
 import OnlineConsultation from './pages/Consultation/OnlineConsultation'
-
+import { Helmet } from 'react-helmet'
 
 const App = () => {
 
@@ -25,10 +25,18 @@ const App = () => {
       <Router>
         <div className='App'>
           <div className='content'>
+
+          <Helmet>
+            <title>Prince TeleHealth</title>
+          </Helmet>
+
             <Switch>
               
               <Route path='/dashboard'>
                 <div>
+                  <Helmet>
+                    <title>Dashboard - Prince TeleHealth</title>
+                  </Helmet>
                   <Header />
                   {user ? <Dashboard /> : <Redirect to='/log-in'></Redirect>}
                   <Footer />
@@ -44,6 +52,9 @@ const App = () => {
               </Route>
 
               <Route path='/sign-up'>
+                <Helmet>
+                  <title>Sign Up - Prince TeleHealth</title>
+                </Helmet>
                 {!user ?
                   (
                     <div>
@@ -54,6 +65,9 @@ const App = () => {
               </Route>
 
               <Route path='/log-in'>
+                <Helmet>
+                  <title>Login - Prince TeleHealth</title>
+                </Helmet>
                 {!user ?
                   (
                     <div>
@@ -64,6 +78,9 @@ const App = () => {
               </Route>
 
               <Route path='/consult/:appointmentId'>
+                <Helmet>
+                  <title>Consult - Prince TeleHealth</title>
+                </Helmet>
                 {user ?
                   (
                     <div>
@@ -74,6 +91,9 @@ const App = () => {
               </Route>
 
               <Route path='*'>
+                  <Helmet>
+                    <title>Not Found - Prince TeleHealth</title>
+                  </Helmet>
                  <NotFound />
               </Route>
 

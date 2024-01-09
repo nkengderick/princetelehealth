@@ -1,6 +1,6 @@
 // UpcomingAppointments.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppointmentContext } from '../../hooks/useAppointmentContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -8,7 +8,7 @@ import { useUserContext } from '../../hooks/useUserContext';
 import { useUpdateAppointment } from '../../hooks/useUpdateAppointment'
 import './appointments.css';
 
-const UpcomingAppointments = () => {
+const UpcomingAppointments = ({ filteredAppointments }) => {
   const { user } = useAuthContext();
   const { users } = useUserContext();
   const { appointments } = useAppointmentContext();
@@ -20,6 +20,10 @@ const UpcomingAppointments = () => {
   if(users){
     currentuser = users.find((u) => user._id === u._id)
   }
+
+  useEffect(() => {
+    setAppointments(filteredAppointments.length > 0 ? filteredAppointments : appointments);
+  }, [filteredAppointments, appointments]);
 
   if (!users || !appointments) {
     return null
@@ -92,10 +96,10 @@ const UpcomingAppointments = () => {
               <p className="appointment-info">Status: {appointment.status}</p>
               { currentuser && currentuser.userType !== 'patient' &&(
                 <div className='appointment-buttons'>                  
-                  <button onClick={() => handleConfirm(appointment._id)} disabled={isUpdating}>
+                  <button className='appointment-button confirm-btn' onClick={() => handleConfirm(appointment._id)} disabled={isUpdating}>
                     Confirm
                   </button>
-                  <button onClick={() => handleReject(appointment._id)} disabled={isUpdating}>
+                  <button className='appointment-button reject-btn' onClick={() => handleReject(appointment._id)} disabled={isUpdating}>
                     Reject
                   </button>
                 </div>

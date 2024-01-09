@@ -3,7 +3,7 @@ import './searchbar.css'
 import React from 'react';
 import {FaSearch} from 'react-icons/fa'
 
-const SearchBar = ({ searchTerm, setSearchTerm }) => {
+const SearchBar = ({ searchTerm, setSearchTerm, search }) => {
 
 
   return (
@@ -11,11 +11,11 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
         <div className="search-container">
             <input
                 type="text"
-                placeholder='Search product by product name or category'
+                placeholder='Search appointment or record by date'
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FaSearch className='search-icon'/>
+              <FaSearch className='search-icon'/>
         </div>
     </div>
   );
