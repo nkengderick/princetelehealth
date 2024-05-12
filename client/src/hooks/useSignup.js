@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "./useAuthContext";
+import { baseURL } from "../App";
 
 export const useSignup = () => {
   const { dispatch } = useAuthContext();
@@ -12,7 +13,7 @@ export const useSignup = () => {
     setError(null);
 
     try {
-      const response = await axios.post('https://prince-tele-health-api.onrender.com/user/create', formData,
+      const response = await axios.post(`${baseURL}/user/create`, formData,
       {
         headers: {
           'Content-Type': 'multipart/form-data'

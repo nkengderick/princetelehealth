@@ -25,7 +25,7 @@ const appointmentsController = {
         return res.status(404).json({ error: 'Patient or doctor not found' });
       }
 
-      refreshAccessToken()
+      await refreshAccessToken()
       const start = new Date(new Date(`${date}T${time}:00`))
       const meetingResponse = await createMeeting(`New Appointment for ${patient.username} with Doctor ${doctor.name}\n at ${time} on ${date} via zoom`, start, 2, 120, 'UTC+01:00', `Appointment details:\nDate: ${date}\nTime: ${time}\nLocation: ${location}\nStatus: ${status}`);
       const joinUrl = meetingResponse.join_url;

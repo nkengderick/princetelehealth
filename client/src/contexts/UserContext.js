@@ -2,6 +2,7 @@
 
 import React, { createContext, useEffect, useReducer  } from 'react'; 
 import axios from 'axios';
+import { baseURL } from '../App';
 
 export const UserContext = createContext();
 
@@ -25,7 +26,7 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://prince-tele-health-api.onrender.com/user/all');
+        const response = await axios.get(`${baseURL}/user/all`);
         const users = await response.data;
         dispatch({ type: 'SET_USERS', payload: users });      
     } catch (error) {

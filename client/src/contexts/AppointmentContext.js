@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer  } from 'react'; 
 import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { baseURL } from '../App';
 
 export const AppointmentContext = createContext();
 
@@ -41,7 +42,7 @@ export function AppointmentContextProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://prince-tele-health-api.onrender.com/appointment/all');
+        const response = await axios.get(`${baseURL}/appointment/all`);
         const appointments = await response.data;
         dispatch({ type: 'SET_APPOINTMENTS', payload: appointments });      
         

@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer  } from 'react'; 
 import axios from 'axios';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { baseURL } from '../App';
 
 export const RecordContext = createContext();
 
@@ -35,7 +36,7 @@ export function RecordContextProvider({ children }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://prince-tele-health-api.onrender.com/record/all');
+        const response = await axios.get(`${baseURL}/record/all`);
         const records = await response.data;
         dispatch({ type: 'SET_RECORDS', payload: records });      
         

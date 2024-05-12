@@ -81,8 +81,8 @@ const UpcomingAppointments = ({ filteredAppointments }) => {
         <ul className="appointments-list">
           {userAppointments.map((appointment) => (
             <li key={appointment._id} className="appointment-item">
-              <p className="appointment-info">Date: {appointment.date}</p>
-              <p className="appointment-info">Time: {appointment.time}</p>
+              <p className="appointment-info">Date: {new Date(appointment.date).toDateString()}</p>
+              <p className="appointment-info">Time: {new Date(appointment.date.split('T')[0]+'T'+appointment.time+':00.000Z').toLocaleTimeString()}</p>
               { currentuser && currentuser.userType === 'patient' && (
                 <p className="appointment-info">
                   Doctor: {users.find((u) => u._id === appointment.doctorId)?.name}

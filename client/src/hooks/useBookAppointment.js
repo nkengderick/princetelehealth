@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAppointmentContext } from './useAppointmentContext';
+import { baseURL } from '../App';
 
 export const useBookAppointment = () => {
   const { dispatch } = useAppointmentContext();
@@ -14,7 +15,7 @@ export const useBookAppointment = () => {
 
     try {
       // Make an API call to book the appointment
-      const response = await axios.post('https://prince-tele-health-api.onrender.com/appointment/create', { doctorId, patientId, date, time, location, status });
+      const response = await axios.post(`${baseURL}/appointment/create`, { doctorId, patientId, date, time, location, status });
 
       const bookedAppointment = response.data;
 

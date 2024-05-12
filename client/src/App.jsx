@@ -17,6 +17,8 @@ import ListSpecialist from './components/listComponents/ListSpecialist'
 import OnlineConsultation from './pages/Consultation/OnlineConsultation'
 import { Helmet } from 'react-helmet'
 
+export const baseURL = process.env.REACT_APP_SERVER_API_URL
+
 const App = () => {
 
   const { user } = useAuthContext();

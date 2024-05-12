@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuthContext } from './useAuthContext';
 import axios from 'axios';
+import { baseURL } from '../App';
 
 export const useLogin = () => {
   const { dispatch } = useAuthContext();
@@ -12,7 +13,7 @@ export const useLogin = () => {
     setError(null);
 
     try {
-      const response = await axios.post('https://prince-tele-health-api.onrender.com/user/login', {
+      const response = await axios.post(`${baseURL}/user/login`, {
         username,
         password,
       });

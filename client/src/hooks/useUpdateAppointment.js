@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAppointmentContext } from './useAppointmentContext';
+import { baseURL } from '../App';
 
 export const useUpdateAppointment = () => {
     const { dispatch } = useAppointmentContext();
@@ -13,7 +14,7 @@ export const useUpdateAppointment = () => {
   
       try {
         // Make an API call to update the appointment
-        const response = await axios.put(`https://prince-tele-health-api.onrender.com/appointment/update/${appointmentId}`, updatedFields);
+        const response = await axios.put(`${baseURL}/appointment/update/${appointmentId}`, updatedFields);
   
         const updatedAppointment = response.data;
   

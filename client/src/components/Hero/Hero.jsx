@@ -39,14 +39,14 @@ const HeroSection = () => {
           <Link to="#features">Features</Link>
           <Link to="#about-us">About Us</Link>
           <Link to="#testimonials">Testimonials</Link>
-          <Link to="/sign-up" className="cta-button">Sign Up</Link>
+          <Link to="/log-in" className="cta-button">Sign in</Link>
         </nav>
       </header>
 
       <div className="hero-content">
         <h1>Your Telemedicine Platform</h1>
         <p>Connect with healthcare professionals from the comfort of your home.</p>
-        <Link to="/find-doctor" className="cta-button">Find a Doctor</Link>
+        <Link to="/log-in" className="cta-button">Get Started</Link>
       </div>
 
       <div className="hero-images">

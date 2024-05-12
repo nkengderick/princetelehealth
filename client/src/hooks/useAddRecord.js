@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRecordContext } from './useRecordContext';
+import { baseURL } from '../App';
 
 export const useAddRecord = () => {
   const { dispatch } = useRecordContext();
@@ -13,7 +14,7 @@ export const useAddRecord = () => {
 
     try {
       // Make an API call to add the record
-      const response = await axios.post('https://prince-tele-health-api.onrender.com/record/create', { doctor, name, phone, dob, address, gender, signsAndSymptoms, recommendations, nextSteps });
+      const response = await axios.post(`${baseURL}/record/create`, { doctor, name, phone, dob, address, gender, signsAndSymptoms, recommendations, nextSteps });
 
       const addedRecord = response.data;
 

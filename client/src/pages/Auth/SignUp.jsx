@@ -81,7 +81,7 @@ const SignUp = () => {
 
   return (
     <div className="Auth">
-      <h1>Welcome to TeleHealth!</h1>
+      <h1>Create an Account</h1>
       <form className={isLoading ? 'blur' : ''} onSubmit={handleSubmit}>
         <label htmlFor="name">Name:</label>
         <input type="text" name="name" value={formData.name} onChange={handleChange} required />
